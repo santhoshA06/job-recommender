@@ -61,10 +61,6 @@ job-recommender/
 ├── data/
 │   └── README.md
 │
-├── docs/
-│   ├── api.md
-│   └── execution_steps.md
-│
 ├── requirements.txt
 ├── app.py
 ├── .gitignore
