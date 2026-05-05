@@ -1,7 +1,6 @@
 import re
 import string
 from typing import List
-
 import nltk
 
 # Download once
@@ -28,7 +27,6 @@ EXTRA_STOPWORDS = {
 }
 STOPWORDS = STOPWORDS.union(EXTRA_STOPWORDS)
 
-
 def normalize_text(text: str) -> str:
     if not isinstance(text, str):
         return ""
@@ -37,12 +35,10 @@ def normalize_text(text: str) -> str:
     text = text.translate(str.maketrans("", "", string.punctuation))
     return text.strip()
 
-
 def tokenize_text(text: str) -> List[str]:
     text = normalize_text(text)
     tokens = word_tokenize(text)
     return [tok for tok in tokens if tok.isalpha() and tok not in STOPWORDS]
-
 
 def preprocess_text(text: str) -> str:
     return " ".join(tokenize_text(text))

@@ -1,8 +1,6 @@
 from io import BytesIO
 from typing import BinaryIO
-
 import pdfplumber
-
 
 def extract_text_from_pdf(file_obj: BinaryIO) -> str:
     """

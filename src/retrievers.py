@@ -8,7 +8,6 @@ from sentence_transformers import SentenceTransformer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.sparse import spmatrix
-
 from src.config import (
     TFIDF_VECTORIZER_PATH,
     TFIDF_MATRIX_PATH,
@@ -18,9 +17,7 @@ from src.config import (
     EMBEDDING_MODEL_NAME,
 )
 
-
 METADATA_COLUMNS = ["job_id", "title", "description", "company", "location"]
-
 
 def _ensure_artifact_ready(path: Path, label: str) -> None:
     if not path.exists():
@@ -32,15 +29,12 @@ def _ensure_artifact_ready(path: Path, label: str) -> None:
             f"{label} is empty at {path}. Rebuild artifacts with scripts/build_indexes.py."
         )
 
-
 def _save_jobs_metadata(jobs_df: pd.DataFrame) -> None:
     jobs_df.loc[:, METADATA_COLUMNS].to_csv(JOBS_METADATA_PATH, index=False, compression="gzip")
-
 
 def _load_jobs_metadata() -> pd.DataFrame:
     _ensure_artifact_ready(JOBS_METADATA_PATH, "Jobs metadata")
     return pd.read_csv(JOBS_METADATA_PATH, compression="gzip")
-
 
 class TFIDFRetriever:
     def __init__(self):
@@ -85,7 +79,6 @@ class TFIDFRetriever:
         results["model"] = "tfidf"
         return results.reset_index(drop=True)
 
-
 class BM25Retriever:
     def __init__(self):
         self.bm25: Optional[BM25Okapi] = None
@@ -124,7 +117,6 @@ class BM25Retriever:
         results["score"] = scores[top_indices]
         results["model"] = "bm25"
         return results.reset_index(drop=True)
-
 
 class DenseRetriever:
     def __init__(self, model_name: str = EMBEDDING_MODEL_NAME):
