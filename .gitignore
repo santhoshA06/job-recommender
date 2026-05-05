@@ -6,6 +6,7 @@ __pycache__/
 *.zip
 
 data/raw/
+data/processed/
 data/artifacts/
 *.pkl
 *.npy
