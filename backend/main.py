@@ -2,15 +2,12 @@ import os
 import math
 import logging
 from io import BytesIO
-
 import pandas as pd
 from fastapi import FastAPI, File, UploadFile, Form
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-
 os.environ["TRANSFORMERS_NO_TORCHVISION"] = "1"
 logging.getLogger("transformers").setLevel(logging.ERROR)
-
 from src.pdf_utils import extract_text_from_pdf
 from src.query_representation import build_query_from_resume, get_resume_debug_info
 from src.retrievers import TFIDFRetriever, BM25Retriever
@@ -30,14 +27,12 @@ tfidf = TFIDFRetriever()
 bm25 = BM25Retriever()
 startup_complete = False
 
-
 @app.on_event("startup")
 def startup_event():
     global startup_complete
     tfidf.load()
     bm25.load()
     startup_complete = True
-
 
 def filter_results(df: pd.DataFrame, location_filter: str = "", title_filter: str = "") -> pd.DataFrame:
     filtered = df.copy()
@@ -60,11 +55,9 @@ def filter_results(df: pd.DataFrame, location_filter: str = "", title_filter: st
 
     return filtered.reset_index(drop=True)
 
-
 @app.get("/health")
 def health_check():
     return {"status": "ok", "startup_complete": startup_complete}
-
 
 @app.post("/recommend")
 async def recommend_jobs(

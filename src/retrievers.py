@@ -36,6 +36,7 @@ def _load_jobs_metadata() -> pd.DataFrame:
     _ensure_artifact_ready(JOBS_METADATA_PATH, "Jobs metadata")
     return pd.read_csv(JOBS_METADATA_PATH, compression="gzip")
 
+# Load precomputed TF-IDF vectorizer and document matrix
 class TFIDFRetriever:
     def __init__(self):
         self.vectorizer: Optional[TfidfVectorizer] = None
@@ -79,6 +80,7 @@ class TFIDFRetriever:
         results["model"] = "tfidf"
         return results.reset_index(drop=True)
 
+# Load precomputed BM25 corpus tokens
 class BM25Retriever:
     def __init__(self):
         self.bm25: Optional[BM25Okapi] = None
@@ -118,6 +120,7 @@ class BM25Retriever:
         results["model"] = "bm25"
         return results.reset_index(drop=True)
 
+# Load precomputed dense embeddings for semantic search
 class DenseRetriever:
     def __init__(self, model_name: str = EMBEDDING_MODEL_NAME):
         self.model_name = model_name
